@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream text-retro-dark font-body;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .retro-card {
+    @apply bg-white border-3 border-retro-dark shadow-retro rounded-lg overflow-hidden;
+  }
+
+  .retro-btn {
+    @apply px-6 py-3 font-display text-sm border-3 border-retro-dark shadow-retro transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-retro-sm hover:translate-y-[-2px] hover:shadow-retro-lg;
+  }
+
+  .stroke-text-white-3 {
+    -webkit-text-stroke: 3px #1f2937;
+    color: white;
+  }
+}
