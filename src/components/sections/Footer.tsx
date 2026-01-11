@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import SectionWrapper from '../ui/SectionWrapper';
 import { ArrowUp, Github, Linkedin, Twitter, Mail } from 'lucide-react';
 
+import { usePortfolioStore } from '../../store/useStore';
+
 const Footer = () => {
+    const { socials } = usePortfolioStore();
     const [time, setTime] = useState('');
 
     useEffect(() => {
@@ -19,12 +22,15 @@ const Footer = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const socialLinks = [
-        { icon: <Github className="w-5 h-5" />, href: "#", label: "GitHub" },
-        { icon: <Linkedin className="w-5 h-5" />, href: "#", label: "LinkedIn" },
-        { icon: <Twitter className="w-5 h-5" />, href: "#", label: "Twitter" },
-        { icon: <Mail className="w-5 h-5" />, href: "mailto:contactgauravb@gmail.com", label: "Email" }
-    ];
+    const getIcon = (platform: string) => {
+        switch (platform) {
+            case 'github': return <Github className="w-5 h-5" />;
+            case 'linkedin': return <Linkedin className="w-5 h-5" />;
+            case 'twitter': return <Twitter className="w-5 h-5" />;
+            case 'email': return <Mail className="w-5 h-5" />;
+            default: return null;
+        }
+    };
 
     return (
         <SectionWrapper id="footer" className="py-20 min-h-[60vh] flex flex-col justify-between relative">
@@ -50,8 +56,8 @@ const Footer = () => {
                     EPIC
                 </h2>
 
-                <a href="mailto:contactgauravb@gmail.com" className="mt-12 px-8 py-3 bg-white border-2 border-retro-dark shadow-[4px_4px_0_0_#1f2937] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#1f2937] transition-all font-display text-xs uppercase tracking-widest">
-                    contactgauravb@gmail.com
+                <a href={socials.find(s => s.platform === 'email')?.href || "mailto:contactgauravb@gmail.com"} className="mt-12 px-8 py-3 bg-white border-2 border-retro-dark shadow-[4px_4px_0_0_#1f2937] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_#1f2937] transition-all font-display text-xs uppercase tracking-widest">
+                    {socials.find(s => s.platform === 'email')?.href.replace('mailto:', '') || "contactgauravb@gmail.com"}
                 </a>
             </div>
 
@@ -63,14 +69,16 @@ const Footer = () => {
 
                 {/* Social Icons */}
                 <div className="flex gap-4 order-1 md:order-2">
-                    {socialLinks.map((social, idx) => (
+                    {socials.map((social, idx) => (
                         <a
                             key={idx}
                             href={social.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="p-2 bg-white border-2 border-retro-dark rounded-lg shadow-retro-sm hover:shadow-retro hover:translate-y-[-2px] transition-all text-retro-dark"
                             aria-label={social.label}
                         >
-                            {social.icon}
+                            {getIcon(social.platform)}
                         </a>
                     ))}
                 </div>

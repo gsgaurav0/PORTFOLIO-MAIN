@@ -1,0 +1,19 @@
+# Server files
+node_modules/
+dist/
+
+# Environment files - NEVER COMMIT THESE
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store

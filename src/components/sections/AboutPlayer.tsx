@@ -4,7 +4,11 @@ import { Target, Zap, Trophy, Cpu, Code2, Rocket, Gamepad2 } from 'lucide-react'
 import Button from '../ui/Button';
 import robotImg from '../../assets/robot.jpg';
 
+import { usePortfolioStore } from '../../store/useStore';
+
 const AboutPlayer = () => {
+    const { profile } = usePortfolioStore();
+
     return (
         // Forced background style to match Skills section exactly
         <div id="about" className="py-20 text-white font-body">
@@ -42,19 +46,20 @@ const AboutPlayer = () => {
                             </div>
 
                             <p className="text-green-100 text-lg leading-relaxed mb-8 max-w-2xl">
-                                I craft game-inspired web experiences that are fast, tactile, and deliberately playful.
-                                Motion-first UI with careful performance optimization and interfaces that feel like a controller in your hands.
+                                {profile.bio || "I craft game-inspired web experiences that are fast, tactile, and deliberately playful. Motion-first UI with careful performance optimization and interfaces that feel like a controller in your hands."}
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-4">
                                 <Button
                                     className="w-full sm:w-auto bg-[#fbbf24] hover:bg-[#f59e0b] text-black font-bold border-b-4 border-[#b45309] active:border-b-0 active:translate-y-1 transition-all rounded-lg"
+                                    onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
                                 >
                                     VIEW PROJECTS_
                                 </Button>
                                 <Button
                                     variant="outline"
                                     className="w-full sm:w-auto bg-[#10b981] hover:bg-[#059669] text-white font-bold border-b-4 border-[#047857] active:border-b-0 active:translate-y-1 transition-all rounded-lg border-t-0 border-l-0 border-r-0"
+                                    onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
                                 >
                                     CONTACT ME
                                 </Button>
@@ -107,9 +112,9 @@ const AboutPlayer = () => {
 
                             <div className="grid grid-cols-3 gap-4">
                                 {[
-                                    { val: "42", label: "PROJECTS", color: "text-white" },
-                                    { val: "5", label: "YEARS XP", color: "text-[#10b981]" },
-                                    { val: "128", label: "VIDEOS", color: "text-[#fbbf24]" }
+                                    { val: profile.projects_count || "0", label: "PROJECTS", color: "text-white" },
+                                    { val: profile.years || "0", label: "YEARS XP", color: "text-[#10b981]" },
+                                    { val: profile.awesomeness || "100%", label: "STATUS", color: "text-[#fbbf24]" }
                                 ].map((stat, idx) => (
                                     <div key={idx} className="bg-[#0a3f32] p-4 rounded-xl text-center border border-green-800 shadow-inner">
                                         <div className={`text-3xl md:text-4xl font-display mb-1 ${stat.color}`}>{stat.val}</div>

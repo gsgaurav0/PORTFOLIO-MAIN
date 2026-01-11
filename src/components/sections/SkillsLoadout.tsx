@@ -15,72 +15,25 @@ type SkillCategory = {
     achievements: string[]; // LIST ITEMS
 };
 
-const skillData: SkillCategory[] = [
-    {
-        id: 'foundations',
-        title: 'FOUNDATIONS',
-        level: 'Level 1 / 4',
-        icon: <Hammer className="w-6 h-6" />,
-        color: '#fbbf24', // Gold/Yellow
-        progress: 90,
-        totalSkills: 6,
-        equipment: ['HTML', 'CSS', 'JAVASCRIPT', 'TYPESCRIPT', 'A11Y', 'TESTING'],
-        achievements: [
-            'Semantic HTML with ARIA patterns and component tokens.',
-            'CSS architecture with utility layering and theming.',
-            'Typed pipelines with strict lint gates and CI checks.',
-        ]
-    },
-    {
-        id: 'frontend',
-        title: 'FRONTEND',
-        level: 'Level 2 / 4',
-        icon: <Zap className="w-6 h-6" />,
-        color: '#2DD4BF', // Teal
-        progress: 85,
-        totalSkills: 6,
-        equipment: ['REACT', 'NEXT.JS', 'TAILWIND', 'FRAMER MOTION', 'ZUSTAND', 'TANSTACK QUERY'],
-        achievements: [
-            'State management architecture for complex apps.',
-            'Performance optimization and bundle size reduction.',
-            'Component library design and documentation.',
-        ]
-    },
-    {
-        id: 'motion',
-        title: 'MOTION & SCROLL',
-        level: 'Level 3 / 4',
-        icon: <Film className="w-6 h-6" />,
-        color: '#F43F5E', // Pink/Red
-        progress: 75,
-        totalSkills: 5,
-        equipment: ['GSAP', 'FRAMER', 'THREE.JS', 'CANVAS', 'SVG ANIMATION'],
-        achievements: [
-            'Scroll-triggered storytelling experiences.',
-            'Micro-interactions and gesture-based UI.',
-            '3D scene composition and optimization.',
-        ]
-    },
-    {
-        id: 'backend',
-        title: 'BUILD & BACKEND',
-        level: 'Level 4 / 4',
-        icon: <Box className="w-6 h-6" />,
-        color: '#3B82F6', // Blue
-        progress: 80,
-        totalSkills: 6,
-        equipment: ['NODE.JS', 'POSTGRES', 'GRAPHQL', 'DOCKER', 'AWS', 'FIREBASE'],
-        achievements: [
-            'API schema design and implementation.',
-            'Database modeling and performance tuning.',
-            'CI/CD pipeline configuration and automation.',
-        ]
+import { usePortfolioStore } from '../../store/useStore';
+
+// Helper to map string IDs to Icons (since we can't persist React Nodes easily)
+const getIcon = (id: string) => {
+    switch (id) {
+        case 'foundations': return <Hammer className="w-6 h-6" />;
+        case 'frontend': return <Zap className="w-6 h-6" />;
+        case 'motion': return <Film className="w-6 h-6" />;
+        case 'backend': return <Box className="w-6 h-6" />;
+        default: return <Settings className="w-6 h-6" />;
     }
-];
+};
 
 const SkillsLoadout = () => {
+    const skillData = usePortfolioStore((state) => state.skills);
     const [activeTabId, setActiveTabId] = useState('foundations');
     const activeCategory = skillData.find(s => s.id === activeTabId) || skillData[0];
+
+    if (!activeCategory) return null;
 
     return (
         // FORCED BACKGROUND COLOR STYLE
@@ -114,7 +67,7 @@ const SkillsLoadout = () => {
               `}
                             style={{ backgroundColor: activeTabId === cat.id ? '#fbbf24' : '#1f5745' }}
                         >
-                            <span className={activeTabId === cat.id ? 'opacity-100' : 'opacity-70'}>{cat.icon}</span>
+                            <span className={activeTabId === cat.id ? 'opacity-100' : 'opacity-70'}>{getIcon(cat.id)}</span>
                             <span className="text-sm md:text-base font-display tracking-wider pr-2">{cat.title}</span>
 
                             {/* Corner Accents for active tab */}
@@ -136,7 +89,7 @@ const SkillsLoadout = () => {
                         {/* Header Info */}
                         <div className="flex items-center gap-6 mb-8">
                             <div className="p-0"> {/* Icon Scaled Up */}
-                                {React.cloneElement(activeCategory.icon as React.ReactElement, { className: "w-16 h-16 text-[#fbbf24] drop-shadow-md" })}
+                                {React.cloneElement(getIcon(activeCategory.id) as React.ReactElement, { className: "w-16 h-16 text-[#fbbf24] drop-shadow-md" })}
                             </div>
                             <div>
                                 <h3 className="text-3xl md:text-4xl font-display uppercase text-white drop-shadow-sm leading-none mb-2">
@@ -218,7 +171,7 @@ const SkillsLoadout = () => {
                                 <div className="flex justify-between items-center mb-3">
                                     <div className="flex items-center gap-3">
                                         <span className={activeTabId === cat.id ? 'text-[#fbbf24]' : 'text-green-300'}>
-                                            {cat.icon}
+                                            {getIcon(cat.id)}
                                         </span>
                                         <div className="flex flex-col">
                                             <span className="font-bold font-display text-white text-base leading-none">{cat.title}</span>

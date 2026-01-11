@@ -4,8 +4,11 @@ import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import { ArrowRight, Terminal, Code, Sparkles } from 'lucide-react';
 import characterImg from '../../assets/tv-character.png';
+import { usePortfolioStore } from '../../store/useStore';
 
 const Hero = () => {
+    const { profile } = usePortfolioStore();
+
     return (
         <SectionWrapper id="home" className="min-h-[80vh] flex items-center">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center w-full">
@@ -18,20 +21,28 @@ const Hero = () => {
                     </div>
 
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-display leading-tight">
-                        Hi, I’m <span className="text-retro-orange">Gaurav</span> <br />
-                        <span className="text-deep-green stroke-text">Dev & Creator</span>
+                        Hi, I’m <span className="text-retro-orange">{profile.name}</span> <br />
+                        <span className="text-deep-green stroke-text">{profile.role}</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-retro-dark/80 max-w-lg font-medium">
-                        Building clean UI, scalable backends, and creative tech with a pixel-perfect mindset.
-                        Leveling up the web one commit at a time.
+                        {profile.bio}
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 mt-2">
-                        <Button size="lg" className="flex items-center gap-2 justify-center">
+                        <Button
+                            size="lg"
+                            className="flex items-center gap-2 justify-center"
+                            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+                        >
                             View Projects <ArrowRight className="w-4 h-4" />
                         </Button>
-                        <Button variant="outline" size="lg" className="flex items-center gap-2 justify-center">
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            className="flex items-center gap-2 justify-center"
+                            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                        >
                             Contact Me <Terminal className="w-4 h-4" />
                         </Button>
                     </div>
@@ -39,26 +50,30 @@ const Hero = () => {
                     {/* Stats Bar */}
                     <div className="grid grid-cols-3 gap-4 mt-8 bg-white p-4 rounded-xl border-3 border-retro-dark shadow-retro-sm">
                         <div className="text-center">
-                            <div className="text-2xl font-display text-retro-orange">5+</div>
+                            <div className="text-2xl font-display text-retro-orange">{profile.years}</div>
                             <div className="text-xs uppercase tracking-wider font-bold text-gray-500">Years Exp</div>
                         </div>
                         <div className="text-center border-l-2 border-gray-100">
-                            <div className="text-2xl font-display text-retro-teal">42</div>
+                            <div className="text-2xl font-display text-retro-teal">{profile.projects_count}</div>
                             <div className="text-xs uppercase tracking-wider font-bold text-gray-500">Projects</div>
                         </div>
                         <div className="text-center border-l-2 border-gray-100">
-                            <div className="text-2xl font-display text-deep-green">100%</div>
+                            <div className="text-2xl font-display text-deep-green">{profile.awesomeness}</div>
                             <div className="text-xs uppercase tracking-wider font-bold text-gray-500">Awesomeness</div>
                         </div>
                     </div>
 
                     {/* Chips */}
                     <div className="flex gap-2 flex-wrap text-sm font-display text-gray-500 mt-2">
-                        <span className="flex items-center gap-1"><Code className="w-4 h-4" /> Frontend</span>
-                        <span className="flex items-center gap-1">•</span>
-                        <span className="flex items-center gap-1"><Terminal className="w-4 h-4" /> Backend</span>
-                        <span className="flex items-center gap-1">•</span>
-                        <span className="flex items-center gap-1"><Sparkles className="w-4 h-4" /> UI/UX</span>
+                        {profile.expertise.map((skill, index) => (
+                            <span key={skill} className="flex items-center gap-1">
+                                {index > 0 && <span className="mr-1">•</span>}
+                                {index === 0 && <Code className="w-4 h-4" />}
+                                {index === 1 && <Terminal className="w-4 h-4" />}
+                                {index === 2 && <Sparkles className="w-4 h-4" />}
+                                {skill}
+                            </span>
+                        ))}
                     </div>
                 </div>
 
@@ -82,7 +97,7 @@ const Hero = () => {
 
                         <div className="mt-4 flex justify-between items-center">
                             <div>
-                                <h3 className="font-display text-lg">Player: Gaurav</h3>
+                                <h3 className="font-display text-lg">Player: {profile.name}</h3>
                                 <p className="text-xs text-gray-500 uppercase">Click to view stats</p>
                             </div>
                             <Gamepad2Icon />

@@ -24,7 +24,6 @@ const Navbar = () => {
                         <div className="bg-retro-orange p-1.5 rounded-lg border-2 border-retro-dark group-hover:rotate-12 transition-transform">
                             <Gamepad2 className="w-6 h-6 text-white" />
                         </div>
-                        <span className="font-display text-lg tracking-tight">GAURAV.DEV</span>
                     </a>
 
                     {/* Desktop Menu */}
@@ -38,9 +37,12 @@ const Navbar = () => {
                                 {item.label}
                             </a>
                         ))}
-                        <button className="bg-deep-green text-white px-6 py-2 rounded-full font-display text-xs border-2 border-retro-dark shadow-retro-sm hover:translate-y-[-2px] hover:shadow-retro transition-all active:translate-y-[0px] active:shadow-none">
+                        <a
+                            href="#contact"
+                            className="bg-deep-green text-white px-6 py-2 rounded-full font-display text-xs border-2 border-retro-dark shadow-retro-sm hover:translate-y-[-2px] hover:shadow-retro transition-all active:translate-y-[0px] active:shadow-none flex items-center justify-center"
+                        >
                             CONTACT ME
-                        </button>
+                        </a>
                     </div>
 
                     {/* Mobile Toggle */}
@@ -73,9 +75,13 @@ const Navbar = () => {
                                     {item.label}
                                 </a>
                             ))}
-                            <button className="bg-deep-green text-white px-6 py-3 rounded-xl font-display text-sm border-2 border-retro-dark shadow-retro-sm mt-2">
+                            <a
+                                href="#contact"
+                                onClick={() => setIsOpen(false)}
+                                className="bg-deep-green text-white px-6 py-3 rounded-xl font-display text-sm border-2 border-retro-dark shadow-retro-sm mt-2 flex items-center justify-center"
+                            >
                                 CONTACT ME
-                            </button>
+                            </a>
                         </div>
                     </motion.div>
                 )}
