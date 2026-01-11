@@ -109,7 +109,7 @@ const Experience = () => {
                                                 {experiences[activeIndex].company}
                                             </h3>
                                             <p className="text-gray-700 text-sm font-medium leading-relaxed mb-4">
-                                                {experiences[activeIndex].desc}
+                                                {experiences[activeIndex].description}
                                             </p>
                                             <ul className="space-y-2 mb-6">
                                                 {experiences[activeIndex].achievements.map((item, i) => (

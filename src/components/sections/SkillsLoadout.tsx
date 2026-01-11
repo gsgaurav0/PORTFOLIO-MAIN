@@ -3,17 +3,7 @@ import { motion } from 'framer-motion';
 import { Settings, Zap, Film, Box, Hammer, MonitorPlay, Star, Trophy } from 'lucide-react';
 
 // --- Data Structure ---
-type SkillCategory = {
-    id: string;
-    title: string;
-    level: string; // e.g. "Level 1 / 4"
-    icon: React.ReactNode;
-    color: string; // Main accent color
-    progress: number;
-    totalSkills: number;
-    equipment: string[]; // BADGES
-    achievements: string[]; // LIST ITEMS
-};
+
 
 import { usePortfolioStore } from '../../store/useStore';
 

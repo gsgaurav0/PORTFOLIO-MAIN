@@ -172,7 +172,7 @@ const AdminMessages = () => {
                                             <Mail className="w-4 h-4" />
                                         </a>
                                         <button
-                                            onClick={() => handleDelete(selectedMessage.id)}
+                                            onClick={() => setDeleteId(selectedMessage.id)}
                                             className="p-2 bg-red-600 text-white rounded-lg hover:brightness-110 transition-all"
                                             title="Delete"
                                         >
@@ -197,6 +197,14 @@ const AdminMessages = () => {
                     </div>
                 </div>
             )}
+
+            <ConfirmModal
+                isOpen={!!deleteId}
+                onClose={() => setDeleteId(null)}
+                onConfirm={confirmDelete}
+                title="Delete Transmission"
+                message="Are you sure you want to delete this message? This action cannot be undone."
+            />
         </div>
     );
 };

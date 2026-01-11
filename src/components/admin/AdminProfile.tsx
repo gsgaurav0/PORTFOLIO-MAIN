@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Save, User, BarChart, Loader2, CheckCircle } from 'lucide-react';
-import { profileApi, type Profile } from '../../services/api';
+import { profileApi } from '../../services/api';
 import { usePortfolioStore } from '../../store/useStore';
 import { useToast } from '../ui/Toast';
 
 const AdminProfile = () => {
     const refreshData = usePortfolioStore(state => state.refreshData);
     const { showToast } = useToast();
-    const [profile, setProfile] = useState<Profile | null>(null);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
@@ -22,7 +21,6 @@ const AdminProfile = () => {
         try {
             const response = await profileApi.get();
             if (response.data) {
-                setProfile(response.data);
                 setValue('name', response.data.name);
                 setValue('role', response.data.role);
                 setValue('bio', response.data.bio);
