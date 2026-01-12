@@ -85,6 +85,7 @@ const Reviews = () => {
                     {/* Navigation Buttons */}
                     <button
                         onClick={prevReview}
+                        aria-label="Previous review"
                         className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-cream border-2 border-retro-dark rounded-lg hover:bg-retro-orange hover:text-white transition-colors shadow-retro-sm"
                     >
                         <ChevronLeft className="w-6 h-6" />
@@ -92,6 +93,7 @@ const Reviews = () => {
 
                     <button
                         onClick={nextReview}
+                        aria-label="Next review"
                         className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-cream border-2 border-retro-dark rounded-lg hover:bg-retro-orange hover:text-white transition-colors shadow-retro-sm"
                     >
                         <ChevronRight className="w-6 h-6" />

@@ -171,6 +171,7 @@ const Projects = () => {
                     {/* Side Arrows (Absolute outside the window) */}
                     <button
                         onClick={prevProject}
+                        aria-label="Previous project"
                         className="hidden md:flex absolute top-1/2 -left-8 -translate-y-1/2 w-12 h-12 bg-white border-3 border-retro-dark rounded-full items-center justify-center shadow-retro hover:scale-110 transition-transform z-20"
                     >
                         <ChevronLeft className="w-6 h-6 text-retro-orange" />
@@ -178,6 +179,7 @@ const Projects = () => {
 
                     <button
                         onClick={nextProject}
+                        aria-label="Next project"
                         className="hidden md:flex absolute top-1/2 -right-8 -translate-y-1/2 w-12 h-12 bg-white border-3 border-retro-dark rounded-full items-center justify-center shadow-retro hover:scale-110 transition-transform z-20"
                     >
                         <ChevronRight className="w-6 h-6 text-retro-orange" />

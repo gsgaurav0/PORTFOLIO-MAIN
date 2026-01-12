@@ -80,8 +80,9 @@ const Contact = () => {
 
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div>
-                                <label className="block font-display text-xs uppercase mb-2 text-retro-dark">Your Name</label>
+                                <label htmlFor="name" className="block font-display text-xs uppercase mb-2 text-retro-dark">Your Name</label>
                                 <input
+                                    id="name"
                                     name="name"
                                     type="text"
                                     disabled={status === 'sending'}
@@ -90,8 +91,9 @@ const Contact = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block font-display text-xs uppercase mb-2 text-retro-dark">Email</label>
+                                <label htmlFor="email" className="block font-display text-xs uppercase mb-2 text-retro-dark">Email</label>
                                 <input
+                                    id="email"
                                     name="email"
                                     type="email"
                                     disabled={status === 'sending'}
@@ -100,8 +102,9 @@ const Contact = () => {
                                 />
                             </div>
                             <div>
-                                <label className="block font-display text-xs uppercase mb-2 text-retro-dark">Message</label>
+                                <label htmlFor="message" className="block font-display text-xs uppercase mb-2 text-retro-dark">Message</label>
                                 <textarea
+                                    id="message"
                                     name="message"
                                     rows={6}
                                     disabled={status === 'sending'}

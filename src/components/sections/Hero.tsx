@@ -101,7 +101,7 @@ const Hero = () => {
 
                         <div className="mt-4 flex justify-between items-center">
                             <div>
-                                <h3 className="font-display text-lg">Player: {profile.name}</h3>
+                                <h2 className="font-display text-lg">Player: {profile.name}</h2>
                                 <p className="text-xs text-gray-500 uppercase">Click to view stats</p>
                             </div>
                             <Gamepad2Icon />

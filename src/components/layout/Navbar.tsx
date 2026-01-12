@@ -20,7 +20,7 @@ const Navbar = () => {
                 <div className="bg-white border-3 border-retro-dark shadow-retro rounded-full px-6 py-3 flex items-center justify-between">
 
                     {/* Logo */}
-                    <a href="#" className="flex items-center gap-2 group">
+                    <a href="#" className="flex items-center gap-2 group" aria-label="Go to top">
                         <div className="bg-retro-orange p-1.5 rounded-lg border-2 border-retro-dark group-hover:rotate-12 transition-transform">
                             <Gamepad2 className="w-6 h-6 text-white" />
                         </div>
