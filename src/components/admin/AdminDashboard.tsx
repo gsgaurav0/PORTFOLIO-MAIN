@@ -1,42 +1,39 @@
 import { useEffect, useState } from 'react';
-import { projectsApi, skillsApi, messagesApi } from '../../services/api';
+import { messagesApi } from '../../services/api';
+import { usePortfolioStore } from '../../store/useStore';
 import { Loader2, FolderOpen, Hammer, Mail, Activity } from 'lucide-react';
 
 const AdminDashboard = () => {
-    const [stats, setStats] = useState({
-        projects: 0,
-        skills: 0,
-        messages: 0,
-        unreadMessages: 0
-    });
-    const [loading, setLoading] = useState(true);
+    const { projects, skills, fetchAllData, isLoading } = usePortfolioStore();
+    const [messagesStats, setMessagesStats] = useState({ total: 0, unread: 0 });
+    // Local loading state only for messages if needed, or rely on store
+    const [messagesLoading, setMessagesLoading] = useState(true);
 
     useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const [p, s, m] = await Promise.all([
-                    projectsApi.getAll(),
-                    skillsApi.getAll(),
-                    messagesApi.getAll()
-                ]);
+        // 1. Ensure store data is populated (background if already has data)
+        fetchAllData();
 
-                setStats({
-                    projects: p.data?.length || 0,
-                    skills: s.data?.length || 0,
-                    messages: m.data?.length || 0,
-                    unreadMessages: m.unreadCount || 0
+        // 2. Fetch Messages (Dynamic, not in store)
+        const fetchMessages = async () => {
+            try {
+                const res = await messagesApi.getAll();
+                setMessagesStats({
+                    total: res.data?.length || 0,
+                    unread: res.unreadCount || 0
                 });
             } catch (error) {
-                console.error('Failed to fetch dashboard stats:', error);
+                console.error('Failed to fetch messages:', error);
             } finally {
-                setLoading(false);
+                setMessagesLoading(false);
             }
         };
 
-        fetchStats();
-    }, []);
+        fetchMessages();
+    }, [fetchAllData]);
 
-    if (loading) {
+    const showSpinner = isLoading && projects.length === 0;
+
+    if (showSpinner) {
         return (
             <div className="flex items-center justify-center h-64">
                 <Loader2 className="w-8 h-8 text-retro-blue animate-spin" />
@@ -69,7 +66,7 @@ const AdminDashboard = () => {
                             </div>
                             <span className="text-[10px] font-mono text-gray-500 uppercase">Total Projects</span>
                         </div>
-                        <div className="text-4xl font-display text-white">{stats.projects}</div>
+                        <div className="text-4xl font-display text-white">{projects.length}</div>
                     </div>
                 </div>
 
@@ -83,7 +80,7 @@ const AdminDashboard = () => {
                             </div>
                             <span className="text-[10px] font-mono text-gray-500 uppercase">Active Skills</span>
                         </div>
-                        <div className="text-4xl font-display text-white">{stats.skills}</div>
+                        <div className="text-4xl font-display text-white">{skills.length}</div>
                     </div>
                 </div>
 
@@ -98,8 +95,14 @@ const AdminDashboard = () => {
                             <span className="text-[10px] font-mono text-gray-500 uppercase">Messages</span>
                         </div>
                         <div className="flex items-baseline gap-2">
-                            <div className="text-4xl font-display text-white">{stats.unreadMessages}</div>
-                            <div className="text-xs font-mono text-gray-500">/ {stats.messages} Total</div>
+                            {messagesLoading ? (
+                                <span className="text-xs font-mono text-gray-500 animate-pulse">SYNCING...</span>
+                            ) : (
+                                <>
+                                    <div className="text-4xl font-display text-white">{messagesStats.unread}</div>
+                                    <div className="text-xs font-mono text-gray-500">/ {messagesStats.total} Total</div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
