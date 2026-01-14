@@ -19,20 +19,23 @@ import AdminProfile from './components/admin/AdminProfile';
 import AdminSettings from './components/admin/AdminSettings';
 import AdminMessages from './components/admin/AdminMessages';
 import Login from './pages/Login';
+import Launcher from './components/sections/Launcher';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { usePortfolioStore } from './store/useStore';
 import AdminDashboard from './components/admin/AdminDashboard';
+import beatUrl from './assets/beat.mp3';
 
 // Public Portfolio Page
 const Portfolio = () => {
   const { fetchAllData, error, hasFetched } = usePortfolioStore();
 
   useEffect(() => {
+    // Data is fetched at App level (Launcher), but we ensure it's here
     fetchAllData();
   }, [fetchAllData]);
 
-  // Loading screen removed as per user request
+  // Loading screen removed as per user request (Handled by Launcher now)
 
 
   // Show error with retry button if fetch completely failed
@@ -82,8 +85,31 @@ const ProtectedRoute = () => {
 };
 
 function App() {
+  const [isLaunched, setIsLaunched] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { fetchAllData } = usePortfolioStore();
+
+  // Preload data immediately when App mounts (while Launcher is visible)
+  useEffect(() => {
+    fetchAllData();
+  }, [fetchAllData]);
+
+  const handleEnter = (withMusic: boolean) => {
+    setIsLaunched(true);
+    if (withMusic && audioRef.current) {
+      audioRef.current.volume = 0.3;
+      audioRef.current.play().catch(err => console.log('Audio autoplay prevented:', err));
+    }
+  };
+
   return (
     <ToastProvider>
+      {/* Background Audio */}
+      <audio ref={audioRef} loop src={beatUrl} />
+
+      {/* Launcher Overlay */}
+      {!isLaunched && <Launcher onEnter={handleEnter} />}
+
       <Router>
         <Routes>
           {/* Public Routes */}
