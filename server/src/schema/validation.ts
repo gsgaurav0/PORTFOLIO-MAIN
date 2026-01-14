@@ -98,11 +98,8 @@ export const updateExperienceSchema = createExperienceSchema.partial().strict();
 const socialPlatforms = ['github', 'linkedin', 'twitter', 'email', 'discord'] as const;
 
 export const updateSocialSchema = z.object({
-    platform: z.enum(socialPlatforms),
-    href: z.string().max(255).refine(
-        (val) => val.startsWith('mailto:') || val.startsWith('http') || val === '#',
-        'Must be a valid URL or mailto link'
-    ),
+    platform: safeString(50), // Relaxed from enum to string to support any platform in DB
+    href: z.string().max(255).optional().or(z.literal('')), // Allow empty or flexible URL
     label: safeString(50),
 }).strict();
 
