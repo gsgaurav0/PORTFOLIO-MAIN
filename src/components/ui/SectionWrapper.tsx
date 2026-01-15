@@ -6,11 +6,20 @@ interface SectionProps {
     children: React.ReactNode;
 }
 
+import { motion } from 'framer-motion';
+
 const SectionWrapper: React.FC<SectionProps> = ({ id, className = "", children }) => {
     return (
-        <section id={id} className={`w-full scroll-mt-32 ${className}`}>
+        <motion.section
+            id={id}
+            className={`w-full scroll-mt-32 ${className}`}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+        >
             {children}
-        </section>
+        </motion.section>
     );
 };
 

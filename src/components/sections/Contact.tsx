@@ -6,11 +6,14 @@ import { messagesApi } from '../../services/api';
 import { Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 
 const Contact = () => {
-    const { socials } = usePortfolioStore();
+    const { socials, profile } = usePortfolioStore();
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
     const [errorMsg, setErrorMsg] = useState('');
 
+    const emailLink = socials.find(s => s.platform === 'email')?.href || "mailto:contact@example.com";
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        // ... (rest of submit logic remains same)
         e.preventDefault();
         setStatus('sending');
         setErrorMsg('');
@@ -147,7 +150,7 @@ const Contact = () => {
 
                                 <div className="flex gap-2 w-full sm:w-auto">
                                     <a
-                                        href="mailto:contactgauravb@gmail.com"
+                                        href={emailLink}
                                         className="flex-1 sm:flex-none px-4 py-2 bg-pastel-yellow text-retro-dark font-display text-xs border-3 border-retro-dark shadow-[2px_2px_0px_0px_#1f2937] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_0px_#1f2937] transition-all rounded-md text-center flex items-center justify-center no-underline"
                                     >
                                         Email
@@ -175,8 +178,8 @@ const Contact = () => {
                                 <img src={avatarImg} alt="Avatar" className="w-full h-full object-cover" />
                             </div>
                             <div>
-                                <h3 className="font-display text-lg mb-1">Gaurav Gupta</h3>
-                                <p className="text-xs font-mono text-gray-500 mb-4">Frontend • Creator</p>
+                                <h3 className="font-display text-lg mb-1">{profile.name}</h3>
+                                <p className="text-xs font-mono text-gray-500 mb-4">{profile.role}</p>
                             </div>
                         </div>
 

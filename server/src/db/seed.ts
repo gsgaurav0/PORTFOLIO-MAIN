@@ -110,12 +110,12 @@ const seed = async () => {
         }
         console.log('✅ Seeded socials');
 
-        // Seed profile
+        // Seed profile (single row)
         await query(`
             INSERT INTO profile (name, role, bio, years, projects_count, awesomeness, expertise)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
             ON CONFLICT DO NOTHING
-        `, ['Gaurav', 'Dev & Creator', 'Building clean UI, scalable backends, and creative tech.', '5+', '42', '100%', ['Frontend', 'Backend', 'UI/UX']]);
+        `, ['Gaurav Gupta', 'Frontend • Creator', 'Building clean UI, scalable backends, and creative tech.', '5+', '42', '100%', ['Frontend', 'Backend', 'UI/UX']]);
         console.log('✅ Seeded profile');
 
         // Seed reviews

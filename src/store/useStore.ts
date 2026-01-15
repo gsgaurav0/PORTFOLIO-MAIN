@@ -34,8 +34,8 @@ interface PortfolioState {
 // Default initial state with Hardcoded Seed Data for Instant Load
 const defaultProfile: Profile = {
     id: "static-init",
-    name: "Gaurav",
-    role: "Dev & Creator",
+    name: "Gaurav Gupta",
+    role: "Frontend • Creator",
     bio: "Building clean UI, scalable backends, and creative tech.",
     years: "5+",
     projects_count: "42",
