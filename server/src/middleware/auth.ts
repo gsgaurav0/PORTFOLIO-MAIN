@@ -106,5 +106,5 @@ export const generateToken = (payload: { id: string; username: string }): string
     if (!jwtSecret) {
         throw new Error('JWT_SECRET not configured');
     }
-    return jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
+    return jwt.sign(payload, jwtSecret, { expiresIn: '7d' });
 };

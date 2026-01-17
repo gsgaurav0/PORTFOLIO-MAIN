@@ -6,7 +6,7 @@
 import { Router, Request, Response } from 'express';
 import { query } from '../config/db.js';
 import { authenticateToken } from '../middleware/auth.js';
-import { globalLimiter } from '../middleware/rateLimiter.js';
+import { globalLimiter, contactLimiter } from '../middleware/rateLimiter.js';
 import { messageSchema } from '../schema/validation.js';
 
 const router = Router();
@@ -15,7 +15,7 @@ const router = Router();
  * POST /api/messages
  * Submit a new contact message (public)
  */
-router.post('/', globalLimiter, async (req: Request, res: Response) => {
+router.post('/', contactLimiter, async (req: Request, res: Response) => {
     try {
         // Validate input
         const parseResult = messageSchema.safeParse(req.body);

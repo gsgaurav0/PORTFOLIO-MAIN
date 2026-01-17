@@ -69,6 +69,20 @@ export const adminLimiter = rateLimit({
 });
 
 /**
+ * Contact form limiter - prevent spam
+ * 5 requests per hour per IP
+ */
+export const contactLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 5,
+    message: { error: 'Too many messages sent. Please try again in an hour.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    handler: rateLimitHandler,
+    // Don't skip in development - we want to test this
+});
+
+/**
  * Strict limiter for sensitive operations (password change, etc.)
  * 3 requests per hour per IP
  */

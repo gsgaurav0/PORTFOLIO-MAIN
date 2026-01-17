@@ -46,14 +46,21 @@ app.use(helmet());
  * CORS - Only allow specified origins
  * OWASP: Restrict cross-origin requests
  */
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:5173'];
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000'
+];
 app.use(cors({
     origin: (origin, callback) => {
         // Allow requests with no origin (mobile apps, curl, etc.)
         if (!origin) return callback(null, true);
+
         if (allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
+
         return callback(new Error('CORS not allowed'), false);
     },
     credentials: true, // Allow cookies
@@ -140,3 +147,4 @@ app.listen(PORT, () => {
 });
 
 export default app;
+// Force restart for env update

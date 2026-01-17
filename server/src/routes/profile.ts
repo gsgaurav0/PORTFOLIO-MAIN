@@ -20,6 +20,7 @@ router.get('/', async (req: Request, res: Response) => {
         }
         res.json({ success: true, data: result.rows[0] });
     } catch (error) {
+        console.error('❌ Profile Fetch Error:', error);
         res.status(500).json({ success: false, error: 'Failed to fetch profile' });
     }
 });
