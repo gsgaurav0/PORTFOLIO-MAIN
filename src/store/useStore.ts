@@ -43,11 +43,11 @@ const defaultProfile: Profile = {
     expertise: ['Frontend', 'Backend', 'UI/UX']
 };
 
-// Helper: Fetch with retry
+// Helper: Fetch with retry (reduced retries for mobile performance)
 const fetchWithRetry = async <T>(
     fn: () => Promise<T>,
-    retries = 3,
-    delay = 1000
+    retries = 2, // Reduced from 3 to minimize API calls on mobile
+    delay = 500  // Reduced from 1000 for faster recovery
 ): Promise<T> => {
     for (let i = 0; i < retries; i++) {
         try {
@@ -76,6 +76,28 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     fetchAllData: async () => {
         if (get().hasFetched) return; // Prevent refetching if already done
 
+        // Check session storage cache first (reduces API calls on refresh)
+        const cached = sessionStorage.getItem('portfolioData');
+        if (cached) {
+            try {
+                const data = JSON.parse(cached);
+                set({
+                    projects: data.projects || [],
+                    skills: data.skills || [],
+                    experiences: data.experiences || [],
+                    socials: data.socials || [],
+                    reviews: data.reviews || [],
+                    profile: data.profile || defaultProfile,
+                    isLoading: false,
+                    hasFetched: true
+                });
+                return;
+            } catch (e) {
+                console.warn('Failed to parse cached data, fetching fresh');
+                sessionStorage.removeItem('portfolioData');
+            }
+        }
+
         set({ isLoading: true, error: null });
 
         try {
@@ -102,12 +124,26 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
                 fetchWithRetry(() => reviewsApi.getAll()),
             ]);
 
-            set({
+            const newState = {
                 projects: projectsRes.data || [],
                 skills: skillsRes.data || [],
                 experiences: expRes.data || [],
                 socials: socialsRes.data || [],
                 reviews: reviewsRes.data || [],
+            };
+
+            // Cache the data in session storage
+            try {
+                sessionStorage.setItem('portfolioData', JSON.stringify({
+                    ...newState,
+                    profile: get().profile
+                }));
+            } catch (e) {
+                console.warn('Failed to cache data in session storage');
+            }
+
+            set({
+                ...newState,
                 isLoading: false,
                 hasFetched: true
             });

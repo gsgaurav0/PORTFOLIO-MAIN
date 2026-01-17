@@ -25,7 +25,7 @@ const rateLimitHandler = (req: Request, res: Response) => {
  */
 export const globalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100,
+    max: 500, // Increased from 100 - each page load makes 6 API calls
     message: { error: 'Too many requests from this IP' },
     standardHeaders: true, // Return rate limit info in headers
     legacyHeaders: false,
