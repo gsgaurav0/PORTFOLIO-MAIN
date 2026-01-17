@@ -5,7 +5,7 @@
             "headers": [
                 {
                     "key": "Content-Security-Policy",
-                    "value": "upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.vercel.app https://gauravsharma.tech; media-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'"
+                    "value": "upgrade-insecure-requests; default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://portfolio-main-ptvp.vercel.app https://*.vercel.app https://gauravsharma.tech; media-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'"
                 },
                 {
                     "key": "X-Content-Type-Options",
