@@ -34,15 +34,6 @@ const PORT = process.env.PORT || 3001;
 // ==============================================
 
 /**
- * Helmet - Sets various HTTP headers for security
- * - X-Content-Type-Options: nosniff
- * - X-Frame-Options: DENY
- * - X-XSS-Protection: 1; mode=block
- * - Strict-Transport-Security
- */
-app.use(helmet());
-
-/**
  * CORS - Only allow specified origins
  * OWASP: Restrict cross-origin requests
  */
@@ -52,6 +43,37 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
     'http://127.0.0.1:5173',
     'http://127.0.0.1:3000'
 ];
+
+/**
+ * Helmet - Sets various HTTP headers for security
+ * - X-Content-Type-Options: nosniff
+ * - X-Frame-Options: DENY
+ * - X-XSS-Protection: 1; mode=block
+ * - Strict-Transport-Security
+ * - Content-Security-Policy with HTTPS enforcement
+ */
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'", ...allowedOrigins], // Allow API connections from allowed origins
+            mediaSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            frameSrc: ["'none'"],
+            upgradeInsecureRequests: [], // Automatically upgrade HTTP to HTTPS
+        },
+    },
+    strictTransportSecurity: {
+        maxAge: 31536000, // 1 year
+        includeSubDomains: true,
+        preload: true
+    }
+}));
+
 app.use(cors({
     origin: (origin, callback) => {
         // Allow requests with no origin (mobile apps, curl, etc.)
