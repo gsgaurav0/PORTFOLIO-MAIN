@@ -42,6 +42,12 @@ app.set('trust proxy', 1);
  * OWASP: Restrict cross-origin requests
  */
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [
+    // Production domains
+    'https://gauravsharma.tech',
+    'https://www.gauravsharma.tech',
+    'https://portfolio-main.vercel.app',
+    'https://portfolio-main-ptvp.vercel.app',
+    // Development domains
     'http://localhost:5173',
     'http://localhost:3000',
     'http://127.0.0.1:5173',
