@@ -29,6 +29,10 @@ import { globalLimiter } from './middleware/rateLimiter.js';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Trust proxy - required for Vercel/cloud platforms
+// Fixes: "The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false"
+app.set('trust proxy', 1);
+
 // ==============================================
 // SECURITY MIDDLEWARE (OWASP)
 // ==============================================
