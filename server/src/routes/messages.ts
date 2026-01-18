@@ -22,7 +22,7 @@ router.post('/', contactLimiter, async (req: Request, res: Response) => {
         if (!parseResult.success) {
             return res.status(400).json({
                 success: false,
-                error: parseResult.error.errors[0]?.message || 'Invalid input',
+                error: parseResult.error.issues[0]?.message || 'Invalid input',
             });
         }
 

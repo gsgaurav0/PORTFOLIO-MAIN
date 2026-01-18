@@ -20,7 +20,7 @@ export const validateBody = (schema: ZodSchema) => {
                 return res.status(400).json({
                     success: false,
                     error: 'Validation failed',
-                    details: error.errors.map((e) => ({
+                    details: error.issues.map((e) => ({
                         field: e.path.join('.'),
                         message: e.message,
                     })),
@@ -37,7 +37,7 @@ export const validateBody = (schema: ZodSchema) => {
 export const validateParams = (schema: ZodSchema) => {
     return (req: Request, res: Response, next: NextFunction) => {
         try {
-            req.params = schema.parse(req.params);
+            req.params = schema.parse(req.params) as any;
             next();
         } catch (error) {
             if (error instanceof ZodError) {
@@ -61,7 +61,7 @@ export const validateParams = (schema: ZodSchema) => {
 export const validateQuery = (schema: ZodSchema) => {
     return (req: Request, res: Response, next: NextFunction) => {
         try {
-            req.query = schema.parse(req.query);
+            req.query = schema.parse(req.query) as any;
             next();
         } catch (error) {
             if (error instanceof ZodError) {
