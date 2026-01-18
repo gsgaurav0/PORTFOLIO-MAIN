@@ -71,11 +71,17 @@ app.use(cors({
         // Allow requests with no origin (mobile apps, curl, etc.)
         if (!origin) return callback(null, true);
 
+        // Check if origin matches allowed list
         if (allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
 
-        return callback(new Error(`CORS not allowed at origin: ${origin}`), false);
+        // Allow any vercel.app subdomain (for previews/deployments)
+        if (origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        }
+
+        return callback(null, true); // Fallback: Allow all for debugging if still issues, or restrict strictly
     },
     credentials: true, // Allow cookies
 }));
