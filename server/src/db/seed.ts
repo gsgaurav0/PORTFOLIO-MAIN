@@ -5,7 +5,7 @@
  * Run with: npm run db:seed
  */
 import { pool, query } from '../config/db.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 
 dotenv.config();

@@ -10,7 +10,10 @@ const Contact = () => {
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
     const [errorMsg, setErrorMsg] = useState('');
 
-    const emailLink = socials.find(s => s.platform === 'email')?.href || "mailto:contact@example.com";
+    const rawEmail = socials.find(s => s.platform === 'email')?.href;
+    const emailLink = rawEmail
+        ? (rawEmail.startsWith('mailto:') ? rawEmail : `mailto:${rawEmail}`)
+        : "mailto:contact@example.com";
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         // ... (rest of submit logic remains same)

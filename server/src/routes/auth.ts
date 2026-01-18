@@ -4,7 +4,7 @@
  * OWASP A07:2021 - Identification and Authentication Failures
  */
 import { Router, Request, Response } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { query } from '../config/db.js';
 import { generateToken, authenticateToken } from '../middleware/auth.js';
 import { validateBody } from '../middleware/validate.js';

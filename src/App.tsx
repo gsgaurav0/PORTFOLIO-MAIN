@@ -21,6 +21,7 @@ import AdminSettings from './components/admin/AdminSettings';
 import AdminMessages from './components/admin/AdminMessages';
 import Login from './pages/Login';
 import Launcher from './components/sections/Launcher';
+import SmoothScroll from './components/ui/SmoothScroll';
 
 import { useEffect, useState, useRef } from 'react';
 import { usePortfolioStore } from './store/useStore';
@@ -105,6 +106,7 @@ function App() {
 
   return (
     <ToastProvider>
+      <SmoothScroll />
       {/* Background Audio */}
       <audio ref={audioRef} loop src={beatUrl} />
 
